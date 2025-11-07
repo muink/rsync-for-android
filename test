@@ -1,0 +1,44 @@
+#!/usr/bin/env sh
+
+WORKDIR="$(cd "$(dirname "$0")"; pwd)" # <--
+# url path
+RSYNC_URL="rsync://localhost:8873"
+BACKUPDIR="$WORKDIR/RSFA_backups"
+node1='root'
+node2='sdcard'
+# rsync default options
+MIRROR='-rlpt' # for root FS
+ARCHIVE='-rt' # for sdcard FUSE FS
+INFO='hi'
+#HASH='--checksum'
+PRUNE='--delete'
+#PROGR='--progress'
+
+case "$(basename "$0")" in
+    *backup*)
+        ACTION=backup;;
+    *restore*)
+        ACTION=restore;;
+    *test*)
+        ACTION=test;;
+    *)
+        ACTION=test;;
+esac
+
+for _f in $node1 $node2; do
+    mkdir -p "$BACKUPDIR/$_f" 2>/dev/null
+done
+
+
+
+case "$ACTION" in
+    backup)
+		rsync $ARCHIVE$INFO $HASH $PRUNE $PROGR --exclude='.$Trash$/' --exclude='Android/' "$RSYNC_URL/$node2/" "$BACKUPDIR/$node2/"
+		;;
+    restore)
+		rsync $ARCHIVE$INFO $HASH        $PROGR --exclude='.$Trash$/' --exclude='Android/' "$BACKUPDIR/$node2/" "$RSYNC_URL/$node2/"
+		;;
+    test)
+		rsync --list-only $RSYNC_URL
+		;;
+esac
