@@ -33,10 +33,10 @@ done
 
 case "$ACTION" in
     backup)
-		rsync $ARCHIVE$INFO $HASH $PRUNE $PROGR --exclude='.$Trash$/' --exclude='Android/' "$RSYNC_URL/$node2/" "$BACKUPDIR/$node2/"
+		rsync $ARCHIVE$INFO $HASH $PRUNE $PROGR --exclude='.$Trash$/' --exclude='.thumbnails/' --exclude='Android/' "$RSYNC_URL/$node2/" "$BACKUPDIR/$node2/"
 		;;
     restore)
-		rsync $ARCHIVE$INFO $HASH        $PROGR --exclude='.$Trash$/' --exclude='Android/' "$BACKUPDIR/$node2/" "$RSYNC_URL/$node2/"
+		rsync $ARCHIVE$INFO $HASH        $PROGR --exclude='.$Trash$/' --exclude='.thumbnails/' --exclude='Android/' "$BACKUPDIR/$node2/" "$RSYNC_URL/$node2/"
 		;;
     test)
 		rsync --list-only $RSYNC_URL
