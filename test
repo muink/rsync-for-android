@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/bin/bash
 
 WORKDIR="$(cd "$(dirname "$0")"; pwd)" # <--
 # url path
